@@ -21,7 +21,7 @@ export const createUser = async (req, res) => {
         message:'You have not access to create this role.'
     })
   }
-  if (!name || !email  || !password || !mobile) {
+  if (!name || !email  || !password || !mobile || !role) {
     return res.json({
       status: 1,
       message: 'All fields are required.',
@@ -49,6 +49,7 @@ export const createUser = async (req, res) => {
         email,
         password: hashedPassword,
         mobile,
+        role,
       },
     });
 

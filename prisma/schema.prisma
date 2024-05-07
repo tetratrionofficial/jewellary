@@ -49,6 +49,11 @@ model Branch {
   @@map("branch")
 }
 
+model Goldrate {
+  id Int @id @default(autoincrement())
+  gold_rate String
 
+  @@map("goldrateGold")
+}
 
 
