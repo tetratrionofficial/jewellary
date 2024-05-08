@@ -15,6 +15,8 @@ import {
 } from '../controllers/branch.js'
 import { auth } from '../middlewares/auth.js';
 import { goldRateCreate, goldRateDelete, goldRateGetById, goldRateUpdate } from '../controllers/goldrate.js';
+import { createCustomer, deleteCustomer, getCustomerById, updateCustomer } from '../controllers/customer.js';
+
 
 const router = express.Router();
 
@@ -33,6 +35,12 @@ router.post('/create-goldrate',auth, goldRateCreate);
 router.get('/goldrate/:id',auth, goldRateGetById);
 router.put('/update-goldrate/:id',auth, goldRateUpdate);
 router.delete('/delete-goldrate/:id',auth, goldRateDelete);
+
+router.post('/create-customer', createCustomer);
+router.post('/login', login);
+router.get('/customerbyid/:id', getCustomerById);
+router.delete('/delete-customer/:id', auth, deleteCustomer);
+router.patch('/update-customer/:id', updateCustomer);
 
 
 

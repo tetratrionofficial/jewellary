@@ -9,18 +9,18 @@ import jwt from 'jsonwebtoken';
 // createUser
 export const createUser = async (req, res) => {
   const { name, email, password,mobile,role} = req.body;
-  const role_creation={
-    "SUPER_ADMIN":['BRANCH_ADMIN',"EMP","CUSTOMER"],
-    "BRANCH_ADMIN":["EMP","CUSTOMER"],
-    "EMP":["CUSTOMER"]
-  }
-  const token_role=req.user.Role_type;
-  if(!role_creation[token_role].includes(role)){
-    return res.status(400).json({
-        status:1,
-        message:'You have not access to create this role.'
-    })
-  }
+  // const role_creation={
+  //   "SUPER_ADMIN":['BRANCH_ADMIN',"EMP","CUSTOMER"],
+  //   "BRANCH_ADMIN":["EMP","CUSTOMER"],
+  //   "EMP":["CUSTOMER"]
+  // }
+  // const token_role=req.user.Role_type;
+  // if(!role_creation[token_role].includes(role)){
+  //   return res.status(400).json({
+  //       status:1,
+  //       message:'You have not access to create this role.'
+  //   })
+  // }
   if (!name || !email  || !password || !mobile || !role) {
     return res.json({
       status: 1,
