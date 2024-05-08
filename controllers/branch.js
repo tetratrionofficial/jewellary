@@ -3,7 +3,7 @@ import prisma from "../database/config.js";
 //create branch 
 export const branchCreate = async (req, res) => {
     console.log(req.body)
-  const { branch_mobile, address, branch_email, branch_code, branch_name ,admin_id} =
+  const { branch_mobile, address1,address2  ,city,state, pincode,country, branch_email, branch_code, branch_name ,admin_id} =
     req.body;
     // const {Role_type}=req.user;
     // if(Role_type!=='SUPER_ADMIN'){
@@ -14,7 +14,12 @@ export const branchCreate = async (req, res) => {
   try {
     if (
       !branch_mobile ||
-      !address ||
+      !address1 ||
+    !address2 ||
+   ! city || 
+    !state ||
+    
+    !pincode||
       !branch_email ||
       !branch_code ||
       !branch_name||
@@ -22,10 +27,10 @@ export const branchCreate = async (req, res) => {
     )
       return res.status(400).json({
         status: 1,
-        message: "forbidden",
+        message: "All fields are required",
       });
     const branch = await prisma.branch.create({
-        data:{branch_mobile, address, branch_email, branch_code, branch_name,admin_id }
+        data:{branch_mobile, address1,address2,city, state,country, branch_email, branch_code, branch_name,admin_id }
     });
     console.log(branch)
     res.status(200).json({

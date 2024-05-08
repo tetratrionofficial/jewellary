@@ -5,27 +5,28 @@ const prisma = new PrismaClient();
 
 //create Customer
 export const createCustomer = async (req, res) => {
-  const { name, email, mobile, address, permanent_address, aadhaar, date, password } = req.body;
+  const { name, email, mobile, address, permanent_address, aadhaar, date, password, branch_id ,emp_id } = req.body;
+  console.log(req.body);
 
-  if (!name || !email || !mobile || !address || !permanent_address || !aadhaar || !date || !password) {
-    return res.json({
-      status: 1,
-      message: 'All fields are required.',
-    });
-  }
+  // if (!name || !email || !mobile || !address || !permanent_address || !aadhaar || !date || !password || !branch_id || emp_id) {
+  //   return res.json({
+  //     status: 1,
+  //     message: 'All fields are required.',
+  //   });
+  // }
 
   try {
-    const existCustomer = await prisma.customer.findUnique({
-      where: {
-        email,
-      },
-    });
-    if (existCustomer) {
-      return res.json({
-        status: 1,
-        message: 'Customer already exists.',
-      });
-    }
+    // const existCustomer = await prisma.customer.findUnique({
+    //   where: {
+    //     email,
+    //   },
+    // });
+    // if (existCustomer) {
+    //   return res.json({
+    //     status: 1,
+    //     message: 'Customer already exists.',
+    //   });
+    // }
 
     const newCustomer = await prisma.customer.create({
       data: {
@@ -36,7 +37,9 @@ export const createCustomer = async (req, res) => {
         permanent_address,
         aadhaar,
         date,
-        password
+        password,
+        branch_id,
+        emp_id
       },
     });
 

@@ -13,22 +13,21 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-
 enum Role {
   SUPER_ADMIN
   BRANCH_ADMIN
   USER
   EMP
   CUSTOMER
-} 
+}
 
-model User{
-  id Int @id @default(autoincrement())
-  name String @db.VarChar(190)
-  email String @unique @db.VarChar(191)
-  password String
-  mobile String
-  role Role @default(USER)
+model User {
+  id        Int      @id @default(autoincrement())
+  name      String   @db.VarChar(190)
+  email     String   @unique @db.VarChar(191)
+  password  String
+  mobile    String
+  role      Role     @default(USER)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
@@ -36,21 +35,26 @@ model User{
 }
 
 model Branch {
-  id Int @id @default(autoincrement())
-  branch_name String
-  branch_code String
-  address String
-  branch_email String 
-  admin_id Int
+  id            Int      @id @default(autoincrement())
+  branch_name   String
+  branch_code   String
+  address1      String
+  address2      String
+  city          String
+  pincode       String?
+  state         String
+  country       String?   @default("India")
+  branch_email  String
+  admin_id      Int
   branch_mobile String?
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
 
   @@map("branch")
 }
 
 model Goldrate {
-  id Int @id @default(autoincrement())
+  id        Int      @id @default(autoincrement())
   gold_rate String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -58,15 +62,22 @@ model Goldrate {
   @@map("goldrateGold")
 }
 
-model Customer{
-  id Int @id @default(autoincrement())
-  name String
-  email String
-  mobile String
-  address String
+model Customer {
+  id                Int    @id @default(autoincrement())
+  name              String
+  email             String
+  mobile            String
+  address           String
   permanent_address String
-  aadhaar String
-  date String 
-  password String
+  aadhaar           String
+  date              String
+  password          String
+  branch_id         String
+  emp_id            String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("customer")
 }
+
 
