@@ -16,6 +16,7 @@ import {
 import { auth } from '../middlewares/auth.js';
 import { goldRateCreate, goldRateDelete, goldRateGetById, goldRateUpdate } from '../controllers/goldrate.js';
 import { createCustomer, deleteCustomer, getCustomerById, updateCustomer } from '../controllers/customer.js';
+import { planCreate, planDelete, planGetById, planUpdate } from '../controllers/plan.js';
 
 
 const router = express.Router();
@@ -41,6 +42,11 @@ router.post('/login', login);
 router.get('/customerbyid/:id', getCustomerById);
 router.delete('/delete-customer/:id', auth, deleteCustomer);
 router.patch('/update-customer/:id', updateCustomer);
+
+router.post('/create-plan', planCreate);
+router.get('/plan/:id', planGetById);
+router.put('/update-plan/:id', planUpdate);
+router.delete('/delete-plan/:id', planDelete);
 
 
 
