@@ -56,60 +56,98 @@ export const createCustomer = async (req, res) => {
   }
 };
 
-export const login = async (req, res) => {
-    const { email, password } = req.body;
+// export const login = async (req, res) => {
+//     const { email, password } = req.body;
   
-    if (!email || !password) {
+//     if (!email || !password) {
+//       return res.json({
+//         status: 1,
+//         message: 'All fields are required.',
+//       });
+//     }
+  
+//     try {
+      // const existCustomer = await prisma.customer.findUnique({
+      //   where: {
+      //     email,
+      //   },
+      // });
+  
+      // if (!existCustomer) {
+      //   return res.json({
+      //     status: 1,
+      //     message: 'Customer not found.',
+      //   });
+      // }
+  
+      
+  //     const matchedPassword = await bcrypt.compare(password, existCustomer.password);
+  
+  //     if (!matchedPassword) {
+  //       return res.json({
+  //         status: 1,
+  //         message: 'Incorrect Password',
+  //       });
+  //     }
+  
+      
+  //     const jwtPayload = {
+  //       email,
+  //       customerId: existCustomer.id,
+  //     };
+  //     const token = jwt.sign(jwtPayload, process.env.JWT_SECRET);
+  
+  //     res.json({
+  //       status: 0,
+  //       token,
+  //       customer: existCustomer,
+  //     });
+  //   } catch (err) {
+  //     return res.status(400).json({
+  //       status: 1,
+  //       message: 'Something went wrong!!',
+  //     });
+  //   }
+  // };
+  
+// Customer Login
+export const customerLogin = async (req, res) => {
+  const { email, password } = req.body;
+
+  try {
+    const customer = await prisma.customer.findFirst({
+      where: {
+        email,
+      },
+    });
+
+    if (!customer) {
       return res.json({
         status: 1,
-        message: 'All fields are required.',
+        message: 'Customer not found.',
       });
     }
-  
-    try {
-      const existCustomer = await prisma.customer.findUnique({
-        where: {
-          email,
-        },
-      });
-  
-      if (!existCustomer) {
-        return res.json({
-          status: 1,
-          message: 'Customer not found.',
-        });
-      }
-  
-      
-      const matchedPassword = await bcrypt.compare(password, existCustomer.password);
-  
-      if (!matchedPassword) {
-        return res.json({
-          status: 1,
-          message: 'Incorrect Password',
-        });
-      }
-  
-      
-      const jwtPayload = {
-        email,
-        customerId: existCustomer.id,
-      };
-      const token = jwt.sign(jwtPayload, process.env.JWT_SECRET);
-  
-      res.json({
-        status: 0,
-        token,
-        customer: existCustomer,
-      });
-    } catch (err) {
-      return res.status(400).json({
+
+    if (customer.password !== password) {
+      return res.json({
         status: 1,
-        message: 'Something went wrong!!',
+        message: 'Incorrect password.',
       });
     }
-  };
-  
+
+    res.json({
+      status: 0,
+      data: customer,
+    });
+  } catch (err) {
+    return res.json({
+      status: 1,
+      message: err.message,
+    });
+  }
+};
+
+
   export const updateCustomer = async (req, res) => {
     const { id } = req.params;
   

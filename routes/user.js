@@ -15,7 +15,7 @@ import {
 } from '../controllers/branch.js'
 import { auth } from '../middlewares/auth.js';
 import { goldRateCreate, goldRateDelete, goldRateGetById, goldRateUpdate } from '../controllers/goldrate.js';
-import { createCustomer, deleteCustomer, getCustomerById, updateCustomer } from '../controllers/customer.js';
+import { createCustomer, customerLogin, deleteCustomer, getCustomerById, updateCustomer } from '../controllers/customer.js';
 import { planCreate, planDelete, planGetById, planUpdate } from '../controllers/plan.js';
 
 
@@ -38,9 +38,9 @@ router.put('/update-goldrate/:id',auth, goldRateUpdate);
 router.delete('/delete-goldrate/:id',auth, goldRateDelete);
 
 router.post('/create-customer', createCustomer);
-router.post('/login', login);
+router.post('/customer-login', customerLogin);
 router.get('/customerbyid/:id', getCustomerById);
-router.delete('/delete-customer/:id', auth, deleteCustomer);
+router.delete('/delete-customer/:id',  deleteCustomer);
 router.patch('/update-customer/:id', updateCustomer);
 
 router.post('/create-plan', planCreate);
