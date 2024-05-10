@@ -16,9 +16,9 @@ import {
     getAllBranches
 } from '../controllers/branch.js'
 import { auth } from '../middlewares/auth.js';
-import { goldRateCreate, goldRateDelete, goldRateGetById, goldRateUpdate } from '../controllers/goldrate.js';
+import { getAllGoldRates, goldRateCreate, goldRateDelete, goldRateGetById, goldRateUpdate } from '../controllers/goldrate.js';
 import { createCustomer, customerLogin, deleteCustomer, getAllCustomers, getCustomerById, updateCustomer } from '../controllers/customer.js';
-import { planCreate, planDelete, planGetById, planUpdate } from '../controllers/plan.js';
+import { getAllPlans, planCreate, planDelete, planGetById, planUpdate } from '../controllers/plan.js';
 
 
 const router = express.Router();
@@ -40,6 +40,7 @@ router.post('/create-goldrate',auth, goldRateCreate);
 router.get('/goldrate/:id',auth, goldRateGetById);
 router.put('/update-goldrate/:id',auth, goldRateUpdate);
 router.delete('/delete-goldrate/:id',auth, goldRateDelete);
+router.get('/getgoldrate',getAllGoldRates);
 
 router.post('/create-customer', createCustomer);
 router.post('/customer-login', customerLogin);
@@ -52,6 +53,7 @@ router.post('/create-plan', planCreate);
 router.get('/plan/:id', planGetById);
 router.put('/update-plan/:id', planUpdate);
 router.delete('/delete-plan/:id', planDelete);
+router.get('/allplan',getAllPlans);
 
 
 

@@ -98,4 +98,24 @@ export const goldRateCreate = async (req, res) => {
       });
     }
   };
+
+  //getAllGoldRate
+
+  export const getAllGoldRates = async (req, res) => {
+    try {
+      const goldRates = await prisma.goldrate.findMany();
+  
+      res.json({
+        status: 0,
+        length: goldRates.length,
+        goldRates,
+      });
+    } catch (err) {
+      res.status(500).json({
+        status: 1,
+        message: err.message ?? "Internal server error",
+      });
+    }
+  };
+  
   

@@ -86,3 +86,23 @@ export const planDelete = async (req, res) => {
         });
     }
 };
+
+//get All Plans
+
+export const getAllPlans = async (req, res) => {
+    try {
+      const plans = await prisma.plan.findMany();
+  
+      res.json({
+        status: 0,
+        length: plans.length,
+        plans,
+      });
+    } catch (err) {
+      res.status(500).json({
+        status: 1,
+        message: err.message ?? "Internal server error",
+      });
+    }
+  };
+  
