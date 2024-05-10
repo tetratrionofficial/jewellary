@@ -87,3 +87,12 @@ model plan {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
+
+model emi {
+  id    Int    @id @default(autoincrement())
+  emi_month    String
+  payment_status  Boolean @default(false)
+  dateOfPayment   String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}

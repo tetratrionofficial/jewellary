@@ -21,6 +21,7 @@ import { auth } from '../middlewares/auth.js';
 import { getAllGoldRates, getHistoricalGoldRates, goldRateCreate, goldRateDelete, goldRateGetById, goldRateUpdate } from '../controllers/goldrate.js';
 import { createCustomer, customerLogin, deleteCustomer, getAllCustomers, getCustomerById, updateCustomer } from '../controllers/customer.js';
 import { getAllPlans, planCreate, planDelete, planGetById, planUpdate } from '../controllers/plan.js';
+import { emiCreate, emiDelete, emiGetById, emiUpdate, getAllEmis } from '../controllers/emi.js';
 
 
 const router = express.Router();
@@ -59,6 +60,12 @@ router.get('/plan/:id', planGetById);
 router.put('/update-plan/:id', planUpdate);
 router.delete('/delete-plan/:id', planDelete);
 router.get('/allplan',getAllPlans);
+
+router.post('/create-emi', emiCreate);
+router.get('/emiByID',emiGetById);
+router.put('/update-emi',emiUpdate);
+router.delete('/delete-emi', emiDelete);
+router.get('/getallemi',getAllEmis);
 
 
 
