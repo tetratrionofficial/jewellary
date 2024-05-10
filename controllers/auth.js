@@ -190,7 +190,7 @@ export const deleteUser = async (req, res) => {
   }
 };
 
-// allUser
+// getUserById
 export const getUserById = async (req, res) => {
     const {id}=req.params;
   try {
@@ -212,3 +212,23 @@ export const getUserById = async (req, res) => {
     });
   }
 };
+
+//getAllUsers
+
+export const getAllUsers = async (req, res) => {
+  try {
+    const users = await prisma.user.findMany();
+
+    res.json({
+      status: 0,
+      length: users.length,
+      users,
+    });
+  } catch (err) {
+    res.json({
+      status: 1,
+      message: err.message,
+    });
+  }
+};
+

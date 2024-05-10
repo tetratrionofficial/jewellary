@@ -239,3 +239,23 @@ export const customerLogin = async (req, res) => {
       });
     }
   };
+
+  //get all customer
+
+  export const getAllCustomers = async (req, res) => {
+    try {
+      const customers = await prisma.customer.findMany();
+  
+      res.json({
+        status: 0,
+        length: customers.length,
+        customers,
+      });
+    } catch (err) {
+      res.json({
+        status: 1,
+        message: err.message,
+      });
+    }
+  };
+  

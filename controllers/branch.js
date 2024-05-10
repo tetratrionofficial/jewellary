@@ -22,8 +22,8 @@ export const branchCreate = async (req, res) => {
     !pincode||
       !branch_email ||
       !branch_code ||
-      !branch_name||
-      !admin_id
+      !branch_name
+      
     )
       return res.status(400).json({
         status: 1,
@@ -96,7 +96,7 @@ export const branchUpdate = async (req, res) => {
   }
 };
 
-// //BranchDelete
+// BranchDelete
 
 export const branchDelete = async (req, res) => {
   const { id } = req.params;
@@ -115,4 +115,23 @@ export const branchDelete = async (req, res) => {
     });
   }
 };
+
+//getallbranch
+export const getAllBranches = async (req, res) => {
+  try {
+    const branches = await prisma.branch.findMany();
+
+    res.json({
+      status: 0,
+      length: branches.length,
+      branches,
+    });
+  } catch (err) {
+    res.status(500).json({
+      status: 1,
+      message: err.message ?? "Internal server error",
+    });
+  }
+};
+
 

@@ -45,7 +45,7 @@ model Branch {
   state         String
   country       String?   @default("India")
   branch_email  String
-  admin_id      Int
+  admin_id      Int?
   branch_mobile String?
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
@@ -73,8 +73,7 @@ model Customer {
   date              String
   password          String
   branch_id         String
-  emp_id            String
-  plan_id           String
+  emp_id            String           
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
