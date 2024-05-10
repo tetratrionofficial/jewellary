@@ -117,5 +117,25 @@ export const goldRateCreate = async (req, res) => {
       });
     }
   };
+
+  export const getHistoricalGoldRates = async (req, res) => {
+    try {
+      const historicalGoldRates = await prisma.goldrate.findMany({
+        orderBy: { createdAt: 'desc' },
+        where: { createdAt: { not: null } }
+      });
+      res.status(200).json({
+        status: 0,
+        length: historicalGoldRates.length,
+        data: historicalGoldRates
+      });
+    } catch (err) {
+      res.status(500).json({
+        status: 1,
+        message: err.message ?? "Internal server error"
+      });
+    }
+  };
+  
   
   

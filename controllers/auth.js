@@ -232,3 +232,232 @@ export const getAllUsers = async (req, res) => {
   }
 };
 
+//update profile 
+// export const updateProfile = async (req, res) => {
+//   try {
+//     const { name, email, address, phone } = req.body;
+//     console.log(req.body);
+//     // Fetch user details from Prisma
+//     const user = await prisma.user.findUnique({
+//       where: {
+//         id: req.user._id,
+//       },
+//     });
+
+    // Update password if provided and meets requirements
+    // let hashedPassword;
+    // if (password) {
+    //   if (password.length < 6) {
+    //     return res.json({ error: "Password is required and must be at least 6 characters long" });
+    //   }
+    //   hashedPassword = await bcrypt.hash(password, 10);
+    // }
+
+    // Update user information in database
+//     const updatedUser = await prisma.user.update({
+//       where: {
+//         id: req.user._id,
+//       },
+//       data: {
+//         name: name || user.name,
+//         email: email || user.email,
+//         // password: hashedPassword || user.password,
+//         phone: phone || user.phone,
+//         address: address || user.address,
+//       },
+//     });
+
+//     res.status(200).send({
+//       success: true,
+//       message: "Profile updated successfully",
+//       updatedUser,
+//     });
+//   } catch (error) {
+//     console.log(error);
+//     res.status(400).send({
+//       success: false,
+//       message: "Error while updating profile",
+//       error,
+//     });
+//   } 
+// };
+
+
+//update password 
+
+
+// export const updatePassword  = async (req, res) => {
+//   const { id } = req.params;
+//   try {
+//     const { currentPassword, newPassword, confirmNewPassword } = req.body;
+    
+//     // Fetch user details from Prisma
+//     const user = await prisma.user.findUnique({
+//       where: {
+//         id: req.user.id,
+//       },
+//     });
+
+//     // Check if the current password provided matches the user's current password
+//     const matchedPassword = await bcrypt.compare(currentPassword, user.password);
+//     if (!matchedPassword) {
+//       return res.json({
+//         status: 1,
+//         message: 'Current password is incorrect.',
+//       });
+//     }
+
+//     // Check if the new password and confirm new password match
+//     if (newPassword !== confirmNewPassword) {
+//       return res.json({
+//         status: 1,
+//         message: 'New password and confirm new password do not match.',
+//       });
+//     }
+
+//     // Hash the new password
+//     const hashedNewPassword = await bcrypt.hash(newPassword, 10);
+
+//     // Update the user's password in the database
+//     const updatedUser = await prisma.user.update({
+//       where: {
+//         id: req.user.id,
+//       },
+//       data: {
+//         password: hashedNewPassword,
+//       },
+//     });
+
+//     res.json({
+//       status: 0,
+//       message: 'Password updated successfully.',
+//     });
+//   } catch (err) {
+//     return res.json({
+//       status: 1,
+//       message: err.message || 'Something went wrong!',
+//     });
+//   }
+// };
+
+
+// updateUserProfile
+export const updateUserProfile = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const existUser = await prisma.user.findUnique({
+      where: {
+        id: parseInt(id),
+      },
+    });
+
+    if (!existUser) {
+      return res.json({
+        status: 1,
+        message: 'User not exist',
+      });
+    }
+
+    const { name, email, mobile } = req.body;
+
+    const updatedUserProfile = await prisma.user.update({
+      where: {
+        id: parseInt(id),
+      },
+      data: {
+        name,
+        email,
+        mobile,
+      },
+    });
+
+    res.json({
+      status: 0,
+      data: updatedUserProfile,
+    });
+  } catch (err) {
+    return res.json({
+      status: 1,
+      message: 'Something went wrong!!',
+    });
+  }
+};
+
+
+export const updateUserPassword = async (req, res) => {
+  const { id } = req.params;
+  const { currentPassword, newPassword, confirmNewPassword } = req.body;
+
+  try {
+    // 1. Validate request data
+    if (!currentPassword || !newPassword || !confirmNewPassword) {
+      return res.status(400).json({
+        status: 1,
+        message: 'Please provide current password, new password, and confirm new password.',
+      });
+    }
+
+    // 2. Fetch user securely using a hasher function
+    const user = await prisma.user.findUnique({
+      where: { id: parseInt(id) },
+      select: { password: true }, // Only select the password field
+    });
+
+    if (!user) {
+      return res.status(404).json({
+        status: 1,
+        message: 'User not found.',
+      });
+    }
+
+    // 3. Verify current password using a secure hasher function
+    const isPasswordValid = await bcrypt.compare(currentPassword, user.password); // Replace with your hasher function
+    if (!isPasswordValid) {
+      return res.status(401).json({
+        status: 1,
+        message: 'Incorrect current password.',
+      });
+    }
+
+    // 4. Validate new password strength (optional but recommended)
+    // const passwordStrength = await validatePassword(newPassword); // Replace with your password strength validation function
+    // if (!passwordStrength.isValid) {
+    //   return res.status(400).json({
+    //     status: 1,
+    //     message: passwordStrength.message, // Provide specific feedback on password weakness
+    //   });
+    // }
+
+    // 5. Ensure new and confirm new password match
+    if (newPassword !== confirmNewPassword) {
+      return res.status(400).json({
+        status: 1,
+        message: 'New password and confirm new password do not match.',
+      });
+    }
+
+    // 6. Hash the new password securely
+    const hashedNewPassword = await bcrypt.hash(newPassword, 10); 
+
+    // 7. Update user with the hashed new password
+    const updatedUser = await prisma.user.update({
+      where: { id: parseInt(id) },
+      data: { password: hashedNewPassword },
+    });
+
+    res.status(200).json({
+      status: 0,
+      message: 'Password updated successfully.',
+    });
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({
+      status: 1,
+      message: 'Internal server error. Please try again later.',
+    });
+  }
+};
+
+
+

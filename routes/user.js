@@ -6,6 +6,8 @@ import {
   updateUser,
   getUserById,
   getAllUsers,
+  updateUserProfile,
+  updateUserPassword,
 
 } from '../controllers/auth.js';
 import {
@@ -16,7 +18,7 @@ import {
     getAllBranches
 } from '../controllers/branch.js'
 import { auth } from '../middlewares/auth.js';
-import { getAllGoldRates, goldRateCreate, goldRateDelete, goldRateGetById, goldRateUpdate } from '../controllers/goldrate.js';
+import { getAllGoldRates, getHistoricalGoldRates, goldRateCreate, goldRateDelete, goldRateGetById, goldRateUpdate } from '../controllers/goldrate.js';
 import { createCustomer, customerLogin, deleteCustomer, getAllCustomers, getCustomerById, updateCustomer } from '../controllers/customer.js';
 import { getAllPlans, planCreate, planDelete, planGetById, planUpdate } from '../controllers/plan.js';
 
@@ -29,6 +31,8 @@ router.get('/userbyid/:id', getUserById);
 router.delete('/delete-user/:id', auth, deleteUser);
 router.patch('/update-user/:id', updateUser);
 router.get('/getalluser',getAllUsers);
+router.put('/update-password/:id',updateUserPassword);
+router.put('/update-profile/:id', updateUserProfile);
 
 router.post('/create-branch', branchCreate);
 router.get('/get-branch/:id',auth, branchGetById);
@@ -41,6 +45,7 @@ router.get('/goldrate/:id',auth, goldRateGetById);
 router.put('/update-goldrate/:id',auth, goldRateUpdate);
 router.delete('/delete-goldrate/:id',auth, goldRateDelete);
 router.get('/getgoldrate',getAllGoldRates);
+router.get('/gethistoricalgoldrate',getHistoricalGoldRates)
 
 router.post('/create-customer', createCustomer);
 router.post('/customer-login', customerLogin);
