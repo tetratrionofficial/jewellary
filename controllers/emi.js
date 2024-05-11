@@ -2,10 +2,10 @@ import prisma from '../database/config.js';
 
 // Create EMI
 export const emiCreate = async (req, res) => {
-    const { emi_month, payment_status, dateOfPayment } = req.body;
+    const { emi_month, emi_year, payment_status, dateOfPayment } = req.body;
     try {
         const createdEmi = await prisma.emi.create({
-            data: { emi_month, payment_status, dateOfPayment }
+            data: { emi_month,emi_year, payment_status, dateOfPayment }
         });
         res.status(200).json({
             status: 0,

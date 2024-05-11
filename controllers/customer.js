@@ -5,7 +5,7 @@ const prisma = new PrismaClient();
 
 //create Customer
 export const createCustomer = async (req, res) => {
-  const { name, email, mobile, address, permanent_address, aadhaar, date, password, branch_id , plan_id,amount} = req.body;
+  const { name, email, mobile, address,city,state, pincode,country, aadhaar, date, password, branch_id , plan_id,amount,emi_id} = req.body;
   console.log(req.body);
 
   // if (!name || !email || !mobile || !address || !permanent_address || !aadhaar || !date || !password || !branch_id || emp_id) {
@@ -34,13 +34,15 @@ export const createCustomer = async (req, res) => {
         email,
         mobile,
         address,
-        permanent_address,
+        city,state, pincode,country,
+        //permanent_address,
         aadhaar,
         date,
         password,
         branch_id,
         plan_id,
-        amount
+        amount,
+        emi_id
       },
     });
 

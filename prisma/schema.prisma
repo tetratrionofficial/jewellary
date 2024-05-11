@@ -30,6 +30,7 @@ model User {
   role      Role     @default(USER)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  branch_id Int?     @default(0)
 
   @@map("users")
 }
@@ -43,7 +44,7 @@ model Branch {
   city          String
   pincode       String?
   state         String
-  country       String?   @default("India")
+  country       String?  @default("India")
   branch_email  String
   admin_id      Int?
   branch_mobile String?
@@ -54,45 +55,59 @@ model Branch {
 }
 
 model Goldrate {
-  id        Int      @id @default(autoincrement())
-  gold_rate String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id             Int              @id @default(autoincrement())
+  gold_rate      String
+  prev_gold_rate updategoldrate[]
+  createdAt      DateTime         @default(now())
+  updatedAt      DateTime         @updatedAt
 
-  @@map("goldrateGold")
+  @@map("goldrate")
 }
 
 model Customer {
-  id                Int    @id @default(autoincrement())
+  id                Int      @id @default(autoincrement())
   name              String
   email             String
   mobile            String
   address           String
-  permanent_address String
+  city          String
+  pincode       String?
+  state         String
+  country       String?  @default("India")
+  //permanent_address String
   aadhaar           String
   date              String
   password          String
-  branch_id         String
-  plan_id           String  
-  amount            String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  branch_id         String?
+  plan_id           String?
+  amount            String?
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  emi_id            Int?
 
   @@map("customer")
 }
 
 model plan {
-  id    Int    @id @default(autoincrement())
-  plan_name      String
+  id        Int      @id @default(autoincrement())
+  plan_name String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
 
 model emi {
-  id    Int    @id @default(autoincrement())
-  emi_month    String
-  payment_status  Boolean @default(false)
-  dateOfPayment   String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id             Int      @id @default(autoincrement())
+  emi_month      String
+  emi_year       String
+  payment_status Boolean  @default(false)
+  dateOfPayment  String
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+}
+
+model updategoldrate {
+  id         Int       @id @default(autoincrement())
+  goldrate   String
+  Goldrate   Goldrate? @relation(fields: [goldrateId], references: [id])
+  goldrateId Int?
 }

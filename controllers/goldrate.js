@@ -63,6 +63,7 @@ export const goldRateCreate = async (req, res) => {
   export const goldRateUpdate = async (req, res) => {
     const { id } = req.params;
     try {
+      
       const updatedGoldRate = await prisma.goldrate.update({
         where: { id: parseInt(id) },
         data: req.body,

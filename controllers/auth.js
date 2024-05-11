@@ -8,7 +8,8 @@ import jwt from 'jsonwebtoken';
 
 // createUser
 export const createUser = async (req, res) => {
-  const { name, email, password,mobile,role} = req.body;
+  const { name, email, password,mobile,role,branch_id} = req.body;
+  
   // const role_creation={
   //   "SUPER_ADMIN":['BRANCH_ADMIN',"EMP","CUSTOMER"],
   //   "BRANCH_ADMIN":["EMP","CUSTOMER"],
@@ -50,6 +51,7 @@ export const createUser = async (req, res) => {
         password: hashedPassword,
         mobile,
         role,
+        branch_id
       },
     });
 
@@ -100,7 +102,8 @@ export const login = async (req, res) => {
     }   
     const jwtPayload = {
       email,
-      Role_type:existUser.role
+      Role_type:existUser.role,
+      id
     };
     const token = jwt.sign(jwtPayload, process.env.JWT_SECRET);
      console.log(token,"token")
