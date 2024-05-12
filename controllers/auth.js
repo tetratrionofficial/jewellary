@@ -474,20 +474,20 @@ export const validateEmail = async (req, res) => {
       },
     });
     if (existUser) {
-      return res.json({
+      return res.status(409).json({
         status: 1,
         message: 'User with this email already exists.',
       });
     }
 
-    res.json({
+    res.status(200).json({
       status: 0,
       message: 'Email is available.',
     });
   } catch (err) {
-    return res.json({
+    return res.status(500).json({
       status: 1,
-      message: err.message,
+      message: 'Internal server error. Please try again later.',
     });
   }
 };
@@ -502,20 +502,20 @@ export const validateMobile = async (req, res) => {
       },
     });
     if (existUser) {
-      return res.json({
+      return res.status(409).json({
         status: 1,
         message: 'User with this mobile number already exists.',
       });
     }
 
-    res.json({
+    res.status(200).json({
       status: 0,
       message: 'Mobile number is available.',
     });
   } catch (err) {
     return res.json({
       status: 1,
-      message: err.message,
+      message: 'Internal server error. Please try again later.',
     });
   }
 };
