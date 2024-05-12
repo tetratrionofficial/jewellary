@@ -134,4 +134,62 @@ export const getAllBranches = async (req, res) => {
   }
 };
 
+//validateEmail
+export const validateEmailBranch = async (req, res) => {
+  const { branch_email } = req.body;
+
+  try {
+    const existBranch = await prisma.branch.findUnique({
+      where: {
+        branch_email,
+      },
+    });
+    if (existBranch) {
+      return res.json({
+        status: 1,
+        message: 'User with this email already exists.',
+      });
+    }
+
+    res.json({
+      status: 0,
+      message: 'Email is available.',
+    });
+  } catch (err) {
+    return res.json({
+      status: 1,
+      message: err.message,
+    });
+  }
+};
+
+//validateMobile
+export const validateMobileBranch = async (req, res) => {
+  const { branch_mobile } = req.body;
+
+  try {
+    const existBranch = await prisma.branch.findUnique({
+      where: {
+        branch_mobile,
+      },
+    });
+    if (existBranch) {
+      return res.json({
+        status: 1,
+        message: 'User with this mobile number already exists.',
+      });
+    }
+
+    res.json({
+      status: 0,
+      message: 'Mobile number is available.',
+    });
+  } catch (err) {
+    return res.json({
+      status: 1,
+      message: err.message,
+    });
+  }
+};
+
 

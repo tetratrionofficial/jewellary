@@ -17,7 +17,9 @@ import {
     branchDelete,
     branchGetById,
     branchUpdate,
-    getAllBranches
+    getAllBranches,
+    validateEmailBranch,
+    validateMobileBranch
 } from '../controllers/branch.js'
 import { auth } from '../middlewares/auth.js';
 import { getAllGoldRates, getHistoricalGoldRates, goldRateCreate, goldRateDelete, goldRateGetById, goldRateUpdate } from '../controllers/goldrate.js';
@@ -43,7 +45,9 @@ router.post('/create-branch', branchCreate);
 router.get('/get-branch/:id',auth, branchGetById);
 router.put('/update-branch/:id',auth, branchUpdate);
 router.delete('/delete-branch/:id',auth, branchDelete);
-router.get('/getallbranch',getAllBranches)
+router.get('/getallbranch',getAllBranches);
+router.post('/validateEmail-branch',validateEmailBranch);
+router.post('/validateMobile-branch',validateMobileBranch);
 
 router.post('/create-goldrate',auth, goldRateCreate);
 router.get('/goldrate/:id',auth, goldRateGetById);
