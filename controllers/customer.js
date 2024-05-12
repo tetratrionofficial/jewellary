@@ -5,7 +5,7 @@ const prisma = new PrismaClient();
 
 //create Customer
 export const createCustomer = async (req, res) => {
-  const { name, email, mobile, address,city,state, pincode,country, aadhaar, date, password, branch_id , plan_id,amount,emi_id} = req.body;
+  const { name, email, mobile, address,city,state, pincode,country, aadhaar, date, password, branch_id , plan_id,amount} = req.body;
   console.log(req.body);
 
   // if (!name || !email || !mobile || !address || !permanent_address || !aadhaar || !date || !password || !branch_id || emp_id) {
@@ -27,30 +27,40 @@ export const createCustomer = async (req, res) => {
     //     message: 'Customer already exists.',
     //   });
     // }
-
+   console.table(req.body.emi)
+    const newEmi = await prisma.emi.create({
+      data:req.body.emi
+      
+    });
+   console.log(newEmi)
     const newCustomer = await prisma.customer.create({
       data: {
         name,
         email,
         mobile,
         address,
-        city,state, pincode,country,
-        //permanent_address,
+        city,
+        state,
+        pincode,
+        country,
         aadhaar,
         date,
         password,
         branch_id,
         plan_id,
         amount,
-        emi_id
-      },
-    });
+        emi_id:newEmi.id
+        
+      }
+     });
+    
 
     res.json({
       status: 0,
       data: newCustomer,
     });
   } catch (err) {
+    console.log(err)
     return res.json({
       status: 1,
       message: err.message,
@@ -260,4 +270,61 @@ export const customerLogin = async (req, res) => {
       });
     }
   };
+
+  //validateEmail
+export const validateEmailCus = async (req, res) => {
+  const { email } = req.body;
+
+  try {
+    const existCustomer = await prisma.customer.findUnique({
+      where: {
+        email,
+      },
+    });
+    if (existCustomer) {
+      return res.json({
+        status: 1,
+        message: 'User with this email already exists.',
+      });
+    }
+
+    res.json({
+      status: 0,
+      message: 'Email is available.',
+    });
+  } catch (err) {
+    return res.json({
+      status: 1,
+      message: err.message,
+    });
+  }
+};
+
+export const validateMobileCus = async (req, res) => {
+  const { mobile } = req.body;
+
+  try {
+    const existCustomer = await prisma.customer.findUnique({
+      where: {
+        mobile,
+      },
+    });
+    if (existCustomer) {
+      return res.json({
+        status: 1,
+        message: 'User with this mobile number already exists.',
+      });
+    }
+
+    res.json({
+      status: 0,
+      message: 'Mobile number is available.',
+    });
+  } catch (err) {
+    return res.json({
+      status: 1,
+      message: err.message,
+    });
+  }
+};
   

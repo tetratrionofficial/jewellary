@@ -8,6 +8,8 @@ import {
   getAllUsers,
   updateUserProfile,
   updateUserPassword,
+  validateEmail,
+  validateMobile,
 
 } from '../controllers/auth.js';
 import {
@@ -19,7 +21,7 @@ import {
 } from '../controllers/branch.js'
 import { auth } from '../middlewares/auth.js';
 import { getAllGoldRates, getHistoricalGoldRates, goldRateCreate, goldRateDelete, goldRateGetById, goldRateUpdate } from '../controllers/goldrate.js';
-import { createCustomer, customerLogin, deleteCustomer, getAllCustomers, getCustomerById, updateCustomer } from '../controllers/customer.js';
+import { createCustomer, customerLogin, deleteCustomer, getAllCustomers, getCustomerById, updateCustomer, validateEmailCus, validateMobileCus } from '../controllers/customer.js';
 import { getAllPlans, planCreate, planDelete, planGetById, planUpdate } from '../controllers/plan.js';
 import { emiCreate, emiDelete, emiGetById, emiUpdate, getAllEmis } from '../controllers/emi.js';
 
@@ -34,6 +36,8 @@ router.patch('/update-user/:id', updateUser);
 router.get('/getalluser',getAllUsers);
 router.put('/update-password/:id',updateUserPassword);
 router.put('/update-profile/:id', updateUserProfile);
+router.post('/validateEmail-user',validateEmail);
+router.post('/validateMobile-user',validateMobile);
 
 router.post('/create-branch', branchCreate);
 router.get('/get-branch/:id',auth, branchGetById);
@@ -54,6 +58,8 @@ router.get('/customerbyid/:id', getCustomerById);
 router.delete('/delete-customer/:id',  deleteCustomer);
 router.patch('/update-customer/:id', updateCustomer);
 router.get('/allcustomer',getAllCustomers);
+router.post('/validateEmail-customer',validateEmailCus);
+router.post('/validateMobile-customer',validateMobileCus);
 
 router.post('/create-plan', planCreate);
 router.get('/plan/:id', planGetById);

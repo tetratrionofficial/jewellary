@@ -22,6 +22,7 @@ export const createUser = async (req, res) => {
   //       message:'You have not access to create this role.'
   //   })
   // }
+  console.log(req.body)
   if (!name || !email  || !password || !mobile || !role) {
     return res.json({
       status: 1,
@@ -30,17 +31,17 @@ export const createUser = async (req, res) => {
   }
 
   try {
-    const existUser = await prisma.user.findUnique({
-      where: {
-        email,
-      },
-    });
-    if (existUser) {
-      return res.json({
-        status: 1,
-        message: 'User already exists.',
-      });
-    }
+    // const existUser = await prisma.user.findUnique({
+    //   where: {
+    //     email,
+    //   },
+    // });
+    // if (existUser) {
+    //   return res.json({
+    //     status: 1,
+    //     message: 'User already exists.',
+    //   });
+    // }
 
     const hashedPassword = await bcrypt.hash(password, 10);
 
@@ -103,7 +104,7 @@ export const login = async (req, res) => {
     const jwtPayload = {
       email,
       Role_type:existUser.role,
-      id
+      id:existUser.id
     };
     const token = jwt.sign(jwtPayload, process.env.JWT_SECRET);
      console.log(token,"token")
@@ -462,5 +463,61 @@ export const updateUserPassword = async (req, res) => {
   }
 };
 
+//validateEmail
+export const validateEmail = async (req, res) => {
+  const { email } = req.body;
+
+  try {
+    const existUser = await prisma.user.findUnique({
+      where: {
+        email,
+      },
+    });
+    if (existUser) {
+      return res.json({
+        status: 1,
+        message: 'User with this email already exists.',
+      });
+    }
+
+    res.json({
+      status: 0,
+      message: 'Email is available.',
+    });
+  } catch (err) {
+    return res.json({
+      status: 1,
+      message: err.message,
+    });
+  }
+};
+
+export const validateMobile = async (req, res) => {
+  const { mobile } = req.body;
+
+  try {
+    const existUser = await prisma.user.findUnique({
+      where: {
+        mobile,
+      },
+    });
+    if (existUser) {
+      return res.json({
+        status: 1,
+        message: 'User with this mobile number already exists.',
+      });
+    }
+
+    res.json({
+      status: 0,
+      message: 'Mobile number is available.',
+    });
+  } catch (err) {
+    return res.json({
+      status: 1,
+      message: err.message,
+    });
+  }
+};
 
 

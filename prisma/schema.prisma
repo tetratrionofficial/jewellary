@@ -26,11 +26,11 @@ model User {
   name      String   @db.VarChar(190)
   email     String   @unique @db.VarChar(191)
   password  String
-  mobile    String
+  mobile    String   @unique
   role      Role     @default(USER)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  branch_id Int?     @default(0)
+  branch_id String?  
 
   @@map("users")
 }
@@ -45,9 +45,9 @@ model Branch {
   pincode       String?
   state         String
   country       String?  @default("India")
-  branch_email  String
+  branch_email  String   @unique
   admin_id      Int?
-  branch_mobile String?
+  branch_mobile String?  @unique
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
 
@@ -65,25 +65,28 @@ model Goldrate {
 }
 
 model Customer {
-  id                Int      @id @default(autoincrement())
-  name              String
-  email             String
-  mobile            String
-  address           String
-  city          String
-  pincode       String?
-  state         String
-  country       String?  @default("India")
+  id        Int      @id @default(autoincrement())
+  name      String
+  email     String   @unique
+  mobile    String   @unique
+  address   String
+  city      String
+  pincode   String?
+  state     String
+  country   String?  @default("India")
   //permanent_address String
-  aadhaar           String
-  date              String
-  password          String
-  branch_id         String?
-  plan_id           String?
-  amount            String?
-  createdAt         DateTime @default(now())
-  updatedAt         DateTime @updatedAt
+  aadhaar   String
+  date      String
+  password  String
+  branch_id String?
+  plan_id   String?
+  amount    String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
   emi_id            Int?
+  //emi       emi      @relation(fields: [emiId], references: [id])
+  //emiId     Int      @unique
+  // emi    Emi?
 
   @@map("customer")
 }
@@ -93,16 +96,22 @@ model plan {
   plan_name String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  @@map("plan")
 }
 
-model emi {
-  id             Int      @id @default(autoincrement())
+model Emi {
+  id             Int       @id @default(autoincrement())
   emi_month      String
   emi_year       String
-  payment_status Boolean  @default(false)
+  payment_status Boolean   @default(false)
   dateOfPayment  String
-  createdAt      DateTime @default(now())
-  updatedAt      DateTime @updatedAt
+  // customer       Customer      @relation(fields: [customerId], references: [id])
+  // customerId     Int      @unique
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+  
+  @@map("emi")
 }
 
 model updategoldrate {
