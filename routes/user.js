@@ -10,6 +10,7 @@ import {
   updateUserPassword,
   validateEmail,
   validateMobile,
+  updatePassword,
 
 } from '../controllers/auth.js';
 import {
@@ -40,6 +41,7 @@ router.put('/update-password/:id',updateUserPassword);
 router.put('/update-profile/:id', updateUserProfile);
 router.post('/validateEmail-user',validateEmail);
 router.post('/validateMobile-user',validateMobile);
+router.put('/update-mpassword/:mobile',updatePassword);
 
 router.post('/create-branch', branchCreate);
 router.get('/get-branch/:id',auth, branchGetById);

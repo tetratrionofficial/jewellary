@@ -521,3 +521,43 @@ export const validateMobile = async (req, res) => {
 };
 
 
+
+// update password with mobile 
+export const updatePassword = async (req, res) => {
+  const { mobile } = req.params;
+  const { newPassword, confirmNewPassword } = req.body;
+
+  try {
+    if (!newPassword || !confirmNewPassword) {
+      return res.status(400).json({
+        status: 1,
+        message: 'Please provide new password and confirm new password.',
+      });
+    }
+
+    if (newPassword !== confirmNewPassword) {
+      return res.status(400).json({
+        status: 1,
+        message: 'New password and confirm new password do not match.',
+      });
+    }
+
+    const hashedNewPassword = await bcrypt.hash(newPassword, 10); 
+
+    const updatedUser = await prisma.user.update({
+      where: { mobile },
+      data: { password: hashedNewPassword },
+    });
+
+    res.status(200).json({
+      status: 0,
+      message: 'Password updated successfully.',
+    });
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({
+      status: 1,
+      message: 'Internal server error. Please try again later.',
+    });
+  }
+};
