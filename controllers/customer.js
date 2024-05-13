@@ -27,12 +27,12 @@ export const createCustomer = async (req, res) => {
     //     message: 'Customer already exists.',
     //   });
     // }
-   console.table(req.body.emi)
-    const newEmi = await prisma.emi.create({
-      data:req.body.emi
+  //  console.table(req.body.emi)
+  //   const newEmi = await prisma.emi.create({
+  //     data:req.body.emi
       
-    });
-   console.log(newEmi)
+  //   });
+   //console.log(newEmi)
     const newCustomer = await prisma.customer.create({
       data: {
         name,
@@ -49,7 +49,7 @@ export const createCustomer = async (req, res) => {
         branch_id,
         plan_id,
         amount,
-        emi_id:newEmi.id
+        //emi_id:newEmi.id
         
       }
      });

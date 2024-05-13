@@ -30,7 +30,7 @@ model User {
   role      Role     @default(USER)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  branch_id String?  
+  branch_id String?
 
   @@map("users")
 }
@@ -83,7 +83,7 @@ model Customer {
   amount    String?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  emi_id            Int?
+  emi_id    Int?     @default(0)
   //emi       emi      @relation(fields: [emiId], references: [id])
   //emiId     Int      @unique
   // emi    Emi?
@@ -101,16 +101,16 @@ model plan {
 }
 
 model Emi {
-  id             Int       @id @default(autoincrement())
+  id             Int      @id @default(autoincrement())
   emi_month      String
   emi_year       String
-  payment_status Boolean   @default(false)
+  payment_status Boolean  @default(false)
   dateOfPayment  String
   // customer       Customer      @relation(fields: [customerId], references: [id])
   // customerId     Int      @unique
-  createdAt      DateTime  @default(now())
-  updatedAt      DateTime  @updatedAt
-  
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
   @@map("emi")
 }
 
